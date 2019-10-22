@@ -1,5 +1,5 @@
-var start; //['x value', 'y value']
-var end;
+var startValue = []; //['x value', 'y value']
+var endValue = [];
 var map = hMap;
 
 function drawMap(ctx) {
@@ -12,12 +12,11 @@ function drawMap(ctx) {
                     this.ctx.fillStyle = '#78B5F9';
                     break;
                 case "%": //Start 
-                    start = [k/2, index];
+                    startValue = [k/2, index];
                     this.ctx.fillStyle = '#20E808';
                     break;
                 case "&": //End
-                    end = [k/2, index]
-                    console.log("test " + start);
+                    endValue = [k/2, index]
                     this.ctx.fillStyle = '#C71315';
                     break;
                 case ".": //BG
@@ -35,7 +34,6 @@ function getNextPath(position, lastPosition) {
     var lastX = lastPosition[0];
     var lastY = lastPosition[1];
     var nextPath = [lastX, lastY];
-    console.log("BIG TEST " + (y-1) + " " + lastY);
         
     if (map[y-1][x*2] == "#" && !arraysEqual([x, y-1], lastPosition)) { // Check above
         nextPath = [x, y-1];
@@ -49,17 +47,37 @@ function getNextPath(position, lastPosition) {
     return nextPath;
 }
 
+function isNextEnd(position) {
+    var x = position[0];
+    var y = position[1];
+    if (map[y-1][x*2] == "&") { // Check above
+        return true;
+    } else if (map[y][(x+1)*2] == "&") { // Check right
+        return true;
+    } else if(map[y+1][x*2] == "&") { // Check under
+        return true;
+    } else if (map[y][(x-1)*2] == "&") { //Check left
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function getStart() {
-    return this.start;
+    return startValue;
 }
 
 function getEnd() {
-    return this.end;
+    return endValue;
 }
 
 function draw(color, position) {
     ctx.fillStyle = color;
-    ctx.fillRect(position[0]*25, position[1]*25, 25, 25);
+    ctx.fillRect(position[0]*1, position[1]*1, 1, 1);
+}
+
+function drawImage(img, position) {
+    ctx.drawImage(img, position[0]*25, position[1]*25, 20, 20); // dx, dy, dw, dh
 }
 
 function arraysEqual(a, b) {
@@ -71,4 +89,10 @@ function arraysEqual(a, b) {
       if (a[i] !== b[i]) return false;
     }
     return true;
-  }
+}
+
+function drawCounter(ctx, hp) {
+    ctx.font = "32px Verdana";
+    ctx.fillStyle = "red";
+    ctx.fillText("HP " + hp ,50,50);
+}

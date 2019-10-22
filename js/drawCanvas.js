@@ -11,29 +11,35 @@ canvas.setAttribute('class', 'canvasBG');
 canvas.height = "800";
 canvas.width = "800";
 
+var playerHP = 5;
+
+var waveNumer = 1;
+
 /**
  * File: drawMap.js
  */
 drawMap(this.ctx);
 
-
 var allEnemies = [];
 var foo = new Enemy(getStart(), enemyType.SMALL);
-allEnemies.push(foo);
+var bar = new Enemy(getStart(), enemyType.MEDIUM);
+//allEnemies.push(foo);
+//allEnemies.push(bar);
 
-/**
- * Move all enemeies another step
- */
-function moveEnemies() {
-    allEnemies.forEach(function(enemy) {
-        var next = getNextPath(enemy.position, enemy.lastPosition);
-        draw(enemy.img, next);
-        if (!(enemy.position == getStart())) {
-            draw("#78B5F9", enemy.position); 
-        }
-        enemy.lastPosition = enemy.position;
-        enemy.position = next;
-    })
+document.addEventListener('keypress', checkkey);
+
+function checkkey(e) {
+    if(e.code == "Space") {
+        newWave(waveNumer);
+    }
+}
+
+
+function updateScreen() {
+    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    drawMap();
+    drawCounter(ctx, playerHP);
+    moveEnemies();
 }
 
 /**
@@ -49,9 +55,9 @@ var last = null;
 function step(timestamp) {
   if (!start) start = timestamp;
   var progress = timestamp - start;
-    if (!last || timestamp - last >= 250) { // Runs every second
+    if (!last || timestamp - last >= 200) { // Runs every second
         last = timestamp;
-        moveEnemies();
+        updateScreen();
     }
 
 
