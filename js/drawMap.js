@@ -3,7 +3,6 @@ var endValue = [];
 var map = hMap;
 
 function drawMap(ctx) {
-
     map.forEach(function(row, index) {
         for (var k=0; k<row.length; k++) {
 
@@ -63,6 +62,35 @@ function isNextEnd(position) {
     }
 }
 
+function isAllowedTurret(position) {
+    var botRightX = Math.round((position[0]+12.5)/25);//bottom right
+    var botRightY = Math.round((position[1]+12.5)/25);//bottom right
+    var botLeftX = Math.round((position[0]+12.5)/25);//bottom left
+    var botLeftY = Math.round((position[1]-12.5)/25);//bottom left
+    var topLeftX = Math.round((position[0]-12.5)/25);//top left
+    var topLeftY = Math.round((position[1]-12.5)/25);//top left
+    var topRightX = Math.round((position[0]+12.5)/25);//top right
+    var topRightY = Math.round((position[1]-12.5)/25);//top right
+    if (map[botRightY][botRightX*2] == "." && 
+        map[botLeftY][botLeftX*2] == "." && 
+        map[topLeftY][topLeftX*2] == "." && 
+        map[topRightY][topRightX*2] == ".") {
+            if (allTowers.length == 0) {
+                return true;    
+            }
+            allTowers.forEach(function (tower, index) {
+                console.log(tower.position + " " + position);
+               if (!arraysEqual(tower.position, position)) {
+                   console.log("BIG TEST");
+                   
+                   return true;
+               } 
+            });
+    } else {    
+        return false;
+    }
+}
+
 function getStart() {
     return startValue;
 }
@@ -77,7 +105,7 @@ function draw(color, position) {
 }
 
 function drawImage(img, position) {
-    ctx.drawImage(img, position[0]*25, position[1]*25, 20, 20); // dx, dy, dw, dh
+    ctx.drawImage(img, position[0]*25, position[1]*25, 25, 25); // dx, dy, dw, dh
 }
 
 function arraysEqual(a, b) {
@@ -91,8 +119,27 @@ function arraysEqual(a, b) {
     return true;
 }
 
-function drawCounter(ctx, hp) {
+const hpImage = document.getElementById('hpImage');
+function drawHP(hp) {
+    for (var i=1; i<=hp; i++) {
+        ctx.drawImage(hpImage, 50*i, 50, 50, 37); // dx, dy, dw, dh
+    }
+}
+
+function drawWave(wave) {
     ctx.font = "32px Verdana";
     ctx.fillStyle = "red";
-    ctx.fillText("HP " + hp ,50,50);
+    ctx.fillText("Wave " + (wave-1) ,600,50);
+}
+
+function drawGameover() {
+    ctx.font = "130px Verdana";
+    ctx.fillStyle = "black";
+    ctx.fillText("GAME OVER" ,0,450);
+}
+
+function drawTowers() {
+    allTowers.forEach(function (tower, index) {
+        ctx.drawImage(tower.img, tower.position[0], tower.position[1], 25, 25);
+    })
 }

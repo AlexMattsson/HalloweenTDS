@@ -21,27 +21,45 @@ var waveNumer = 1;
 drawMap(this.ctx);
 
 var allEnemies = [];
-var foo = new Enemy(getStart(), enemyType.SMALL);
-var bar = new Enemy(getStart(), enemyType.MEDIUM);
-//allEnemies.push(foo);
-//allEnemies.push(bar);
+
+var allTowers = [];
 
 document.addEventListener('keypress', checkkey);
 
 function checkkey(e) {
-    if(e.code == "Space") {
+    if(e.code == "Space" && allEnemies.length == 0) {
         newWave(waveNumer);
-    }
+        waveNumer++;
+    } 
+}
+
+canvas.addEventListener("click", function (evt) {
+  var mousePos = getMousePos(canvas, evt);
+  newTower([mousePos.x-12.5,mousePos.y-12.5], towerType.MEDIUM);
+}, false);
+
+//Get Mouse Position
+function getMousePos(canvas, evt) {
+  var rect = canvas.getBoundingClientRect();
+  return {
+      x: evt.clientX - rect.left,
+      y: evt.clientY - rect.top
+  };
 }
 
 
 function updateScreen() {
-    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    drawMap();
-    drawCounter(ctx, playerHP);
-    moveEnemies();
+  ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  drawMap();
+  drawTowers();
+  drawWave(waveNumer);
+  if (playerHP <= 0) {
+    drawGameover();
+    return;
+  }
+  drawHP(playerHP);
+  moveEnemies();
 }
-
 /**
  * Draw canvas on screen
  */
@@ -55,13 +73,13 @@ var last = null;
 function step(timestamp) {
   if (!start) start = timestamp;
   var progress = timestamp - start;
-    if (!last || timestamp - last >= 200) { // Runs every second
+    if (!last || timestamp - last >= 50) { // Runs every second
         last = timestamp;
         updateScreen();
     }
 
-
   gameRun = window.requestAnimationFrame(step);
+
 }
 
 let gameRun = window.requestAnimationFrame(step);

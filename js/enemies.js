@@ -6,15 +6,15 @@ function Enemy(position, type) {
     this.lastPosition = position;
 }
 
-const image = document.getElementById('image');
+const enemy = document.getElementById('ghost');
 
 const enemyType = {
     SMALL: 1,
     MEDIUM: 2,
     LARGE: 3,
     properties: {
-        1: {maxHP: "5", img: image},
-        2: {maxHP: "15", img: image},
+        1: {maxHP: "5", img: enemy},
+        2: {maxHP: "15", img: enemy},
         3: {maxHP: "45", img: "#EC14C8"},
     }
 };
