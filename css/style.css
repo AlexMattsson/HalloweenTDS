@@ -3,3 +3,8 @@ canvas {
     margin: auto;
     display: block;
 }
+
+.tutorial {
+    position: absolute;
+    z-index: 1001;
+}
