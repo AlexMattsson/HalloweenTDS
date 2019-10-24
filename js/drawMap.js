@@ -65,8 +65,8 @@ function isNextEnd(position) {
 function isAllowedTurret(position) {
     var botRightX = Math.round((position[0]+12.5)/25);//bottom right
     var botRightY = Math.round((position[1]+12.5)/25);//bottom right
-    var botLeftX = Math.round((position[0]+12.5)/25);//bottom left
-    var botLeftY = Math.round((position[1]-12.5)/25);//bottom left
+    var botLeftX = Math.round((position[0]-12.5)/25);//bottom left
+    var botLeftY = Math.round((position[1]+12.5)/25);//bottom left
     var topLeftX = Math.round((position[0]-12.5)/25);//top left
     var topLeftY = Math.round((position[1]-12.5)/25);//top left
     var topRightX = Math.round((position[0]+12.5)/25);//top right
@@ -75,18 +75,20 @@ function isAllowedTurret(position) {
         map[botLeftY][botLeftX*2] == "." && 
         map[topLeftY][topLeftX*2] == "." && 
         map[topRightY][topRightX*2] == ".") {
-            if (allTowers.length == 0) {
-                return true;    
-            }
-            allTowers.forEach(function (tower, index) {
-                console.log(tower.position + " " + position);
-               if (!arraysEqual(tower.position, position)) {
-                   console.log("BIG TEST");
-                   
-                   return true;
-               } 
-            });
-    } else {    
+            return true;
+            /*allTowers.forEach(function (tower, index) {
+
+               if (botRightX == (tower.position[0]+12.5)/25 && ) {
+
+                    console.log("BIG TEST");
+                    
+                    return false;    
+                    console.log("test");
+                                                 
+               }
+            });*/
+    } else {   
+         
         return false;
     }
 }
@@ -142,4 +144,11 @@ function drawTowers() {
     allTowers.forEach(function (tower, index) {
         ctx.drawImage(tower.img, tower.position[0], tower.position[1], 25, 25);
     })
+}
+
+function shoot() {
+    allTowers.forEach(function (tower) {
+        shootTower(tower);
+    })
+
 }

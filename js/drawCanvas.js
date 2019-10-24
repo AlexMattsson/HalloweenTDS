@@ -30,12 +30,22 @@ function checkkey(e) {
     if(e.code == "Space" && allEnemies.length == 0) {
         newWave(waveNumer);
         waveNumer++;
-    } 
+    } else if (e.code == "KeyX") {
+      document.body.style.cursor = "url(img/placeCursor.png), pointer";
+    } else if (e.code == "KeyC") {
+      document.body.style.cursor = "url(img/placeCursor2.png), pointer";
+    } else if (e.code == "KeyK") {
+      document.body.style.cursor = "default";
+    }
 }
 
 canvas.addEventListener("click", function (evt) {
   var mousePos = getMousePos(canvas, evt);
-  newTower([mousePos.x-12.5,mousePos.y-12.5], towerType.MEDIUM);
+  if (document.body.style.cursor == "url(\"img/placeCursor.png\"), pointer") {
+    newTower([mousePos.x-12.5,mousePos.y-12.5], towerType.SMALL);
+  } else if (document.body.style.cursor == "url(\"img/placeCursor2.png\"), pointer") {
+    newTower([mousePos.x-12.5,mousePos.y-12.5], towerType.MEDIUM);
+  }
 }, false);
 
 //Get Mouse Position
@@ -69,13 +79,19 @@ body.appendChild(canvas);
 var start = null;
 var element = document.getElementById('SomeElementYouWantToAnimate');
 var last = null;
+var shootTimer = null;
 
 function step(timestamp) {
   if (!start) start = timestamp;
   var progress = timestamp - start;
-    if (!last || timestamp - last >= 50) { // Runs every second
+    if (!last || timestamp - last >= 100) { // Runs every second
         last = timestamp;
         updateScreen();
+    } 
+    if (!shootTimer || timestamp - shootTimer >= 500) {
+      shootTimer = timestamp;
+      shoot();
+      
     }
 
   gameRun = window.requestAnimationFrame(step);
