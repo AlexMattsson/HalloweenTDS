@@ -21,6 +21,9 @@ function drawMap(ctx) {
                 case ".": //BG
                     this.ctx.fillStyle = '#6F8717';
                     break;
+                case "@":
+                    this.ctx.fillStyle = '#6F8717';
+                    break;
             }
             this.ctx.fillRect(k/2*25, index*25, 25, 25);
         }
@@ -143,12 +146,23 @@ function drawGameover() {
 function drawTowers() {
     allTowers.forEach(function (tower, index) {
         ctx.drawImage(tower.img, tower.position[0], tower.position[1], 25, 25);
-    })
+    });
 }
 
 function shoot() {
     allTowers.forEach(function (tower) {
         shootTower(tower);
-    })
+    });
+}
 
+function uppdateProjectiles() {
+    allProjectiles.forEach(function(projectile) {
+        console.log("trydraw");
+        
+        ctx.drawImage(projectile.img, projectile.position[0]+5, projectile.position[1]+5, 25, 25);
+        console.log("test " + projectile.position);
+        
+        projectile.position[0] += 5;
+        projectile.position[1] += 5;
+    })
 }

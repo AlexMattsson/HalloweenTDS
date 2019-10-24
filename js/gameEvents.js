@@ -46,11 +46,10 @@ function newTower(position, type) {
 function shootTower(tower) {
     var range = tower.range; 
     var position = tower.position;
-    //console.log("teettss");
     
     allEnemies.forEach(function(enemy, index) {
-        
-        
+        var projectile = new Projectile(position, enemy);
+        allProjectiles.push(projectile);
         if(rangeBetween(tower.position, enemy.position) < tower.range) {
             enemy.hp -= tower.damage;
             if (enemy.hp <= 0) {

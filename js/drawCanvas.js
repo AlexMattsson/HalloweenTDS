@@ -24,6 +24,8 @@ var allEnemies = [];
 
 var allTowers = [];
 
+var allProjectiles = [];
+
 document.addEventListener('keypress', checkkey);
 
 function checkkey(e) {
@@ -87,13 +89,15 @@ function step(timestamp) {
     if (!last || timestamp - last >= 100) { // Runs every second
         last = timestamp;
         updateScreen();
+        uppdateProjectiles();
+
     } 
     if (!shootTimer || timestamp - shootTimer >= 500) {
       shootTimer = timestamp;
       shoot();
       
+      
     }
-
   gameRun = window.requestAnimationFrame(step);
 
 }
