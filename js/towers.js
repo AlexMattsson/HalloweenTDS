@@ -18,3 +18,7 @@ const towerType = {
         3: {damage: "15", range: "20", img: "#EC14C8"},
     }
 };
+
+function getTowerPos(tower) {
+    return tower.position;
+}

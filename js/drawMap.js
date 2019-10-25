@@ -3,29 +3,32 @@ var endValue = [];
 var map = hMap;
 
 function drawMap(ctx) {
+    const bg = document.getElementById('bg');
     map.forEach(function(row, index) {
         for (var k=0; k<row.length; k++) {
 
             switch (row[k]) {
                 case "#": //Enemy Path
                     this.ctx.fillStyle = '#78B5F9';
+                    this.ctx.fillRect(k/2*25, index*25, 25, 25);
                     break;
                 case "%": //Start 
                     startValue = [k/2, index];
                     this.ctx.fillStyle = '#20E808';
+                    this.ctx.fillRect(k/2*25, index*25, 25, 25);
                     break;
                 case "&": //End
                     endValue = [k/2, index]
                     this.ctx.fillStyle = '#C71315';
+                    this.ctx.fillRect(k/2*25, index*25, 25, 25);
                     break;
                 case ".": //BG
-                    this.ctx.fillStyle = '#6F8717';
+                    this.ctx.drawImage(bg, k/2*25, index*25, 25, 25);
                     break;
                 case "@":
-                    this.ctx.fillStyle = '#6F8717';
+                    this.ctx.drawImage(bg, k/2*25, index*25, 25, 25);
                     break;
             }
-            this.ctx.fillRect(k/2*25, index*25, 25, 25);
         }
     });
 }
@@ -155,14 +158,32 @@ function shoot() {
     });
 }
 
+function getAngle(pos1, pos2) {
+     return Math.atan2(pos2[1] - pos1[1], pos2[0] - pos1[0]);
+}
+
 function uppdateProjectiles() {
-    allProjectiles.forEach(function(projectile) {
-        console.log("trydraw");
+    allProjectiles.forEach(function(projectile, index) {
+        if (arraysEqual([Math.round(projectile.position[0]/25), Math.round(projectile.position[1]/25)], projectile.target.position)) {
+            projectile.target.hp -= projectile.sender.damage;
+            allProjectiles.splice(index, 1);
+        }
+        var angle = getAngle(projectile.position, [projectile.target.position[0]*25, projectile.target.position[1]*25]);
+        //console.log([projectile.target.position[0]*25, projectile.target.position[1]*25] +  " " + projectile.position[0] + " " + projectile.position[1] + " " + Math.sin(angle));
         
-        ctx.drawImage(projectile.img, projectile.position[0]+5, projectile.position[1]+5, 25, 25);
-        console.log("test " + projectile.position);
+        ctx.drawImage(projectile.img, projectile.position[0], projectile.position[1], 25, 25);
+        projectile.position[0] += 5 * Math.cos(angle);
+        projectile.position[1] += 5 * Math.sin(angle);
         
-        projectile.position[0] += 5;
-        projectile.position[1] += 5;
     })
 }
+const scary = document.getElementById('scary');
+
+function drawScary1() {
+    ctx.drawImage(scary, 150 , 330, 600, 600);
+}
+
+function drawScary2() {
+    ctx.drawImage(scary, 100, 250, 700, 700);
+}
+

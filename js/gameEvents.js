@@ -29,7 +29,7 @@ function moveEnemies() {
 
 function replaceAt(string, index, replace) {
     return string.substring(0, index) + replace + string.substring(index + 1);
-  }
+}
 
 function newTower(position, type) {
     if (isAllowedTurret(position)) {
@@ -44,14 +44,11 @@ function newTower(position, type) {
 }
 
 function shootTower(tower) {
-    var range = tower.range; 
-    var position = tower.position;
     
     allEnemies.forEach(function(enemy, index) {
-        var projectile = new Projectile(position, enemy);
-        allProjectiles.push(projectile);
         if(rangeBetween(tower.position, enemy.position) < tower.range) {
-            enemy.hp -= tower.damage;
+            var projectile = new Projectile([tower.position[0], tower.position[1]], enemy, tower);
+            allProjectiles.push(projectile);
             if (enemy.hp <= 0) {
                 allEnemies.splice(index, 1);
             }

@@ -1,4 +1,5 @@
-function Projectile(position, target) {
+function Projectile(position, target, sender) {
+    this.sender = sender;
     this.position = position;
     this.target = target;
     this.img = projectile;

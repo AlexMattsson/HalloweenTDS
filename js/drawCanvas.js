@@ -82,6 +82,7 @@ var start = null;
 var element = document.getElementById('SomeElementYouWantToAnimate');
 var last = null;
 var shootTimer = null;
+var small = true;
 
 function step(timestamp) {
   if (!start) start = timestamp;
@@ -89,15 +90,23 @@ function step(timestamp) {
     if (!last || timestamp - last >= 100) { // Runs every second
         last = timestamp;
         updateScreen();
-        uppdateProjectiles();
-
-    } 
-    if (!shootTimer || timestamp - shootTimer >= 500) {
-      shootTimer = timestamp;
-      shoot();
-      
-      
-    }
+        
+      } 
+      if (!shootTimer || timestamp - shootTimer >= 500) {
+        shootTimer = timestamp;
+        shoot();
+        if (small == true) {
+          small = false;
+        } else {
+          small = true;
+        }
+      }
+      if (small == true) {
+        drawScary1();
+      } else {
+        drawScary2();
+      }
+      uppdateProjectiles();
   gameRun = window.requestAnimationFrame(step);
 
 }
