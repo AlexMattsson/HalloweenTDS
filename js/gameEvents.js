@@ -43,17 +43,23 @@ function newTower(position, type) {
     }
 }
 
+var BreakException = {};
+
 function shootTower(tower) {
-    
-    allEnemies.forEach(function(enemy, index) {
-        if(rangeBetween(tower.position, enemy.position) < tower.range) {
-            var projectile = new Projectile([tower.position[0], tower.position[1]], enemy, tower);
-            allProjectiles.push(projectile);
-            if (enemy.hp <= 0) {
-                allEnemies.splice(index, 1);
+    try {
+        allEnemies.forEach(function(enemy, index) {
+            if(rangeBetween(tower.position, enemy.position) < tower.range) {
+                var projectile = new Projectile([tower.position[0], tower.position[1]], enemy, tower);
+                allProjectiles.push(projectile);
+                if (enemy.hp <= 0) {
+                    allEnemies.splice(index, 1);
+                }
+                throw BreakException;
             }
-        }
-    });
+        });
+    } catch (e) {
+        if (e !== BreakException) throw e;
+    }   
 }
 
 function rangeBetween(tower, enemy) {

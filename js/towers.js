@@ -3,6 +3,7 @@ function Tower(position, type) {
     this.damage = towerType.properties[type].damage;
     this.range = towerType.properties[type].range;
     this.img = towerType.properties[type].img;
+    this.cost = towerType.properties[type].cost;
 }
 
 const image = document.getElementById('tower');
@@ -13,9 +14,9 @@ const towerType = {
     MEDIUM: 2,
     LARGE: 3,
     properties: {
-        1: {damage: "1", range: "75", img: image},
-        2: {damage: "5", range: "150", img: image2},
-        3: {damage: "15", range: "20", img: "#EC14C8"},
+        1: {damage: "1", range: "75", cost: "25", img: image},
+        2: {damage: "5", range: "150", cost: "100", img: image2},
+        3: {damage: "15", range: "20", cost: "200", img: image2},
     }
 };
 
