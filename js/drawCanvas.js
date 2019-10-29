@@ -11,14 +11,33 @@ canvas.setAttribute('class', 'canvasBG');
 canvas.height = "800";
 canvas.width = "800";
 
-var playerHP = 5;
+var playerHP = 10;
 
 var waveNumer = 1;
+
+var money = 100;
+
+var music;
+
+const background = document.getElementById("background");
 
 /**
  * File: drawMap.js
  */
-drawMap(this.ctx);
+
+var music = new Audio();
+music.src = "music.mp3";
+music.volume = 1;
+music.loop = true;
+console.log(music);
+
+
+window.onload = () => {
+  drawMap(this.ctx);
+ 
+    music.pause();
+    music.play();
+}
 
 var allEnemies = [];
 
@@ -26,9 +45,10 @@ var allTowers = [];
 
 var allProjectiles = [];
 
-document.addEventListener('keypress', checkkey);
+document.addEventListener('keydown', checkkey);
 
 function checkkey(e) {
+    
     if(e.code == "Space" && allEnemies.length == 0) {
         newWave(waveNumer);
         waveNumer++;
@@ -36,7 +56,7 @@ function checkkey(e) {
       document.body.style.cursor = "url(img/placeCursor.png), pointer";
     } else if (e.code == "KeyC") {
       document.body.style.cursor = "url(img/placeCursor2.png), pointer";
-    } else if (e.code == "KeyK") {
+    } else if (e.key == "Escape") {
       document.body.style.cursor = "default";
     }
 }
@@ -48,6 +68,7 @@ canvas.addEventListener("click", function (evt) {
   } else if (document.body.style.cursor == "url(\"img/placeCursor2.png\"), pointer") {
     newTower([mousePos.x-12.5,mousePos.y-12.5], towerType.MEDIUM);
   }
+  document.body.style.cursor = "default";
 }, false);
 
 //Get Mouse Position
@@ -62,6 +83,7 @@ function getMousePos(canvas, evt) {
 
 function updateScreen() {
   ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
   drawMap();
   drawTowers();
   drawWave(waveNumer);
@@ -70,6 +92,7 @@ function updateScreen() {
     return;
   }
   drawHP(playerHP);
+  drawMoney(money);
   moveEnemies();
 }
 /**

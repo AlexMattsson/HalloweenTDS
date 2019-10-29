@@ -3,30 +3,23 @@ var endValue = [];
 var map = hMap;
 
 function drawMap(ctx) {
-    const bg = document.getElementById('bg');
+    const road = document.getElementById('road');
+    const start = document.getElementById('start');
+    const end = document.getElementById('end');
     map.forEach(function(row, index) {
         for (var k=0; k<row.length; k++) {
 
             switch (row[k]) {
                 case "#": //Enemy Path
-                    this.ctx.fillStyle = '#78B5F9';
-                    this.ctx.fillRect(k/2*25, index*25, 25, 25);
+                    this.ctx.drawImage(road, k/2*25, index*25, 25, 25);
                     break;
                 case "%": //Start 
                     startValue = [k/2, index];
-                    this.ctx.fillStyle = '#20E808';
-                    this.ctx.fillRect(k/2*25, index*25, 25, 25);
+                    this.ctx.drawImage(start, k/2*25, index*25, 25, 25);
                     break;
                 case "&": //End
                     endValue = [k/2, index]
-                    this.ctx.fillStyle = '#C71315';
-                    this.ctx.fillRect(k/2*25, index*25, 25, 25);
-                    break;
-                case ".": //BG
-                    this.ctx.drawImage(bg, k/2*25, index*25, 25, 25);
-                    break;
-                case "@":
-                    this.ctx.drawImage(bg, k/2*25, index*25, 25, 25);
+                    this.ctx.drawImage(end, k/2*25, index*25, 25, 25);
                     break;
             }
         }
@@ -82,17 +75,6 @@ function isAllowedTurret(position) {
         map[topLeftY][topLeftX*2] == "." && 
         map[topRightY][topRightX*2] == ".") {
             return true;
-            /*allTowers.forEach(function (tower, index) {
-
-               if (botRightX == (tower.position[0]+12.5)/25 && ) {
-
-                    console.log("BIG TEST");
-                    
-                    return false;    
-                    console.log("test");
-                                                 
-               }
-            });*/
     } else {   
          
         return false;
@@ -129,19 +111,28 @@ function arraysEqual(a, b) {
 
 const hpImage = document.getElementById('hpImage');
 function drawHP(hp) {
+    ctx.font = "24px Arial Black";
+    ctx.fillStyle = "#feb0b4";
+    ctx.fillText("Hp:", 55, 40);
     for (var i=1; i<=hp; i++) {
         ctx.drawImage(hpImage, 50*i, 50, 50, 37); // dx, dy, dw, dh
     }
 }
 
 function drawWave(wave) {
-    ctx.font = "32px Verdana";
-    ctx.fillStyle = "red";
-    ctx.fillText("Wave " + (wave-1) ,600,50);
+    ctx.font = "32px Arial Black";
+    ctx.fillStyle = "#feb0b4";
+    ctx.fillText("Wave " + (wave-1) ,600,80);
+}
+
+function drawMoney(money) {
+    ctx.font = "32px Arial Black";
+    ctx.fillStyle = "#feb0b4";
+    ctx.fillText("Cash: " + money ,600,120);
 }
 
 function drawGameover() {
-    ctx.font = "130px Verdana";
+    ctx.font = "130px Arial Black";
     ctx.fillStyle = "black";
     ctx.fillText("GAME OVER" ,0,450);
 }
@@ -169,7 +160,6 @@ function uppdateProjectiles() {
             allProjectiles.splice(index, 1);
         }
         var angle = getAngle(projectile.position, [projectile.target.position[0]*25, projectile.target.position[1]*25]);
-        //console.log([projectile.target.position[0]*25, projectile.target.position[1]*25] +  " " + projectile.position[0] + " " + projectile.position[1] + " " + Math.sin(angle));
         
         ctx.drawImage(projectile.img, projectile.position[0], projectile.position[1], 25, 25);
         projectile.position[0] += 5 * Math.cos(angle);
