@@ -29,14 +29,17 @@ var music = new Audio();
 music.src = "music.mp3";
 music.volume = 1;
 music.loop = true;
-console.log(music);
 
+
+drawMap(this.ctx);
 
 window.onload = () => {
-  drawMap(this.ctx);
- 
+  music.currentTime = 0;
+  music.addEventListener("canplay", ()=> {
     music.pause();
     music.play();
+  });
+  
 }
 
 var allEnemies = [];
