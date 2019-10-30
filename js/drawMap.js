@@ -132,7 +132,7 @@ function drawMoney(money) {
 }
 
 function drawGameover() {
-    ctx.font = "130px Arial Black";
+    ctx.font = "120px Arial Black";
     ctx.fillStyle = "black";
     ctx.fillText("GAME OVER" ,0,450);
 }
@@ -177,3 +177,8 @@ function drawScary2() {
     ctx.drawImage(scary, 100, 250, 700, 700);
 }
 
+function drawText(text) {
+    ctx.font = "16px Arial Black";
+    ctx.fillStyle = "#feb0b4";
+    ctx.fillText(text ,100,200);
+}

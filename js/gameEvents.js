@@ -11,6 +11,9 @@ async function newWave(waveNumber) {
 function moveEnemies() {
     allEnemies.forEach(function(enemy, index) {
         var next = getNextPath(enemy.position, enemy.lastPosition);
+        if (enemy.hp <= 0) {
+            allEnemies.splice(index, 1);
+        }
         try {
         if (isNextEnd(enemy.position)) {
             playerHP--;
@@ -34,12 +37,16 @@ function replaceAt(string, index, replace) {
 function newTower(position, type) {
     if (isAllowedTurret(position)) {
         var tower = new Tower(position, type);
-        var x = Math.round(position[0]/25);
-        var y = Math.round(position[1]/25);
-        map[y] = replaceAt(map[y], x*2, "@");
-        allTowers.push(tower);
+        if(money >= tower.cost) {
+            var x = Math.round(position[0]/25);
+            var y = Math.round(position[1]/25);
+            map[y] = replaceAt(map[y], x*2, "@");
+            allTowers.push(tower);
+        } else {
+
+        }
     } else {
-        console.log("not allow to place a turret there!");
+        displayText("Not allowed to place turret there!");
     }
 }
 
@@ -68,4 +75,10 @@ function rangeBetween(tower, enemy) {
 
 function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time));
+}
+
+function displayText(text) {
+    displayTimer = 0;
+    currentText = text;
+    display = true;
 }

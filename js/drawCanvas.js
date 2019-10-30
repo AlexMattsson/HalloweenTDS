@@ -53,9 +53,13 @@ document.addEventListener('keydown', checkkey);
 
 function checkkey(e) {
     
-    if(e.code == "Space" && allEnemies.length == 0) {
+    if(e.code == "Space") {
+      if (allEnemies.length == 0) {
         newWave(waveNumer);
         waveNumer++;
+      } else {
+        displayText("Kill all spooky's before next wave!");
+      }
     } else if (e.code == "KeyX") {
       document.body.style.cursor = "url(img/placeCursor.png), pointer";
     } else if (e.code == "KeyC") {
@@ -85,6 +89,10 @@ function getMousePos(canvas, evt) {
 }
 
 
+var currentText;
+var display = false;
+var displayTimer;
+
 function updateScreen() {
   ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
@@ -98,6 +106,15 @@ function updateScreen() {
   drawHP(playerHP);
   drawMoney(money);
   moveEnemies();
+  if (display == true) {
+    drawText(currentText);
+    if (displayTimer > 10) {
+      display = false;
+      displayTimer = 0;
+    }
+    displayTimer++;
+  }
+  
 }
 /**
  * Draw canvas on screen
@@ -117,7 +134,6 @@ function step(timestamp) {
     if (!last || timestamp - last >= 100) { // Runs every second
         last = timestamp;
         updateScreen();
-        
       } 
       if (!shootTimer || timestamp - shootTimer >= 500) {
         shootTimer = timestamp;
@@ -131,6 +147,7 @@ function step(timestamp) {
           small = true;
         }
       }
+
       if (small == true) {
         drawScary1();
       } else {
