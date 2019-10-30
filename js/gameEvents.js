@@ -51,9 +51,6 @@ function shootTower(tower) {
             if(rangeBetween(tower.position, enemy.position) < tower.range) {
                 var projectile = new Projectile([tower.position[0], tower.position[1]], enemy, tower);
                 allProjectiles.push(projectile);
-                if (enemy.hp <= 0) {
-                    allEnemies.splice(index, 1);
-                }
                 throw BreakException;
             }
         });

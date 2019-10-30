@@ -14,9 +14,9 @@ const towerType = {
     MEDIUM: 2,
     LARGE: 3,
     properties: {
-        1: {damage: "1", range: "75", cost: "25", img: image},
-        2: {damage: "5", range: "150", cost: "100", img: image2},
-        3: {damage: "15", range: "20", cost: "200", img: image2},
+        1: {damage: "1", range: "100", cost: "25", img: image},
+        2: {damage: "3", range: "150", cost: "100", img: image2},
+        3: {damage: "15", range: "250", cost: "200", img: image2},
     }
 };
 

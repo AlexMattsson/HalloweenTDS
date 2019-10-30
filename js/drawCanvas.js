@@ -17,8 +17,6 @@ var waveNumer = 1;
 
 var money = 100;
 
-var music;
-
 const background = document.getElementById("background");
 
 /**
@@ -26,16 +24,19 @@ const background = document.getElementById("background");
  */
 
 var music = new Audio();
+music.muted = true;
 music.src = "music.mp3";
 music.volume = 1;
 music.loop = true;
+console.log(music);
+
 
 
 drawMap(this.ctx);
 
 window.onload = () => {
-  music.currentTime = 0;
   music.addEventListener("canplay", ()=> {
+    music.muted = false;
     music.pause();
     music.play();
   });
@@ -120,6 +121,9 @@ function step(timestamp) {
       } 
       if (!shootTimer || timestamp - shootTimer >= 500) {
         shootTimer = timestamp;
+        if (allEnemies.length > 0) {
+          money++;
+        }
         shoot();
         if (small == true) {
           small = false;
@@ -134,7 +138,6 @@ function step(timestamp) {
       }
       uppdateProjectiles();
   gameRun = window.requestAnimationFrame(step);
-
 }
 
 let gameRun = window.requestAnimationFrame(step);
